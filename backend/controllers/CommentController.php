@@ -128,14 +128,12 @@ class CommentController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
+    public function actionDelete($id,$idPost)
     {
         $this->findModel($id)->delete();
-       // $idPost=Yii::$app->request->post('idPost');
-        //$path='../web/index.php?r=post%2Fview&id='.$idPost;
-        return $this->redirect(['post/index']);
-        //return $this->redirect($path);
-        //return $this->redirect(array('post/view', 'id'=>$idPost));
+        //$idPost=Yii::$app->request->post('idPost');
+        $path='../web/index.php?r=post%2Fview&id='.$idPost;
+        return $this->redirect($path);
     }
 
     /**

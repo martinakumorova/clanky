@@ -121,7 +121,7 @@ class CommentController extends Controller
             ]);
         }
     }
-
+//bla
     /**
      * Deletes an existing Comment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -131,10 +131,10 @@ class CommentController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        $idPost=Yii::$app->request->post('idPost');
-        $path='../web/index.php?r=post%2Fview&id='.$idPost;
-        //return $this->redirect(['post/index']);
-        return $this->redirect($path);
+       // $idPost=Yii::$app->request->post('idPost');
+        //$path='../web/index.php?r=post%2Fview&id='.$idPost;
+        return $this->redirect(['post/index']);
+        //return $this->redirect($path);
         //return $this->redirect(array('post/view', 'id'=>$idPost));
     }
 

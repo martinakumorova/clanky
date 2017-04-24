@@ -14,6 +14,8 @@ use frontend\models\SignupForm;
 use frontend\models\ContactForm;
 use backend\models\PostSearch;
 use yii\data\ActiveDataProvider;
+use yii\log\DbTarget;
+
 
 /**
  * Site controller
@@ -74,7 +76,13 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $dbTarget = new DbTarget();
+        $dbTarget->export();
+        $output=$dbTarget->messages;
+        
+        return $this->render('index', [
+                'model' => $output,
+            ]);
     }
 
     /**

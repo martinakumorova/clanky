@@ -3,17 +3,16 @@
 namespace frontend\controllers;
 
 use Yii;
-use common\models\Comment;
-use common\models\CommentSearch;
+use common\models\Ambulance;
+use common\models\AmbulanceSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
-use common\models\Post;
 
 /**
- * CommentController implements the CRUD actions for Comment model.
+ * AmbulanceController implements the CRUD actions for Ambulance model.
  */
-class CommentController extends Controller
+class AmbulanceController extends Controller
 {
     /**
      * @inheritdoc
@@ -31,12 +30,12 @@ class CommentController extends Controller
     }
 
     /**
-     * Lists all Comment models.
+     * Lists all Ambulance models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new CommentSearch();
+        $searchModel = new AmbulanceSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -46,43 +45,28 @@ class CommentController extends Controller
     }
 
     /**
-     * Displays a single Comment model.
+     * Displays a single Ambulance model.
      * @param integer $id
      * @return mixed
      */
     public function actionView($id)
     {
-
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
     }
 
     /**
-     * Creates a new Comment model.
+     * Creates a new Ambulance model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id,$id_comment)
+    public function actionCreate()
     {
-        $model = new Comment();
+        $model = new Ambulance();
 
-        $params = Yii::$app->request->queryParams;
-        if ($model->load(Yii::$app->request->post())) {
-            //$model->date=date('Y-m-d H:m:i');
-            $model->post_id_post=$id;
-            //$model->id_user= Yii::$app->getUser()->getId();
-
-            if($id_comment!='0')
-            {
-                $model->reply_id_coment=$id_comment;
-            }else
-            {
-                $model->reply_id_coment=null;
-
-            }
-            $model->save();
-            return $this->redirect(['view', 'id' => $model->id_comment]);
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->id_ambulance]);
         } else {
             return $this->render('create', [
                 'model' => $model,
@@ -90,9 +74,8 @@ class CommentController extends Controller
         }
     }
 
-
     /**
-     * Updates an existing Comment model.
+     * Updates an existing Ambulance model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -102,7 +85,7 @@ class CommentController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id_comment]);
+            return $this->redirect(['view', 'id' => $model->id_ambulance]);
         } else {
             return $this->render('update', [
                 'model' => $model,
@@ -111,39 +94,28 @@ class CommentController extends Controller
     }
 
     /**
-     * Deletes an existing Comment model.
+     * Deletes an existing Ambulance model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id,$id_comment_on_comment)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
-        if($id_comment_on_comment!=null){
-            $this->findModel($id_comment_on_comment)->delete();
-        }
+
         return $this->redirect(['index']);
     }
 
     /**
-     * Finds the Comment model based on its primary key value.
+     * Finds the Ambulance model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Comment the loaded model
+     * @return Ambulance the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Comment::findOne($id)) !== null) {
-            return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-    }
-
-    protected function findModelRelation($id)
-    {
-        if (($model = Comment::findAll($id)) !== null) {
+        if (($model = Ambulance::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');

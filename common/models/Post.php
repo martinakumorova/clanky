@@ -72,4 +72,15 @@ class Post extends \yii\db\ActiveRecord
     {
         return $this->hasOne(User::className(), ['id' => 'id_user']);
     }
+
+//    public function beforeSave($insert)
+//    {
+//        if (parent::beforeSave($insert)) {
+//            $this->date = date('Y-m-d H:m:i');
+//            $this->id_user= Yii::$app->getUser()->getId();
+//            return true;
+//        } else {
+//            return false;
+//        }
+//    }
 }

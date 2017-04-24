@@ -27,17 +27,17 @@ class CommentController extends Controller
                 ],
             ],
             'access' => [
-                        'class' => \yii\filters\AccessControl::className(),
-                        'only' => ['index','create','update','view'],
-                        'rules' => [
-                            // allow authenticated users
-                            [
-                                'allow' => true,
-                                'roles' => ['@'],
-                            ],
-                            // everything else is denied
-                        ],
+                'class' => \yii\filters\AccessControl::className(),
+                'only' => ['index','create','update','view'],
+                'rules' => [
+                    // allow authenticated users
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],
                     ],
+                    // everything else is denied
+                ],
+            ],
         ];
     }
 
@@ -62,8 +62,8 @@ class CommentController extends Controller
      * @return mixed
      */
     public function actionView($id)
-    {   
-        
+    {
+
         return $this->render('view', [
             'model' => $this->findModel($id),
         ]);
@@ -74,26 +74,25 @@ class CommentController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate($id, $id_comment)
+    public function actionCreate($id, $id_comment=null)
     {
         $model = new Comment();
-        
+
         //$params = Yii::$app->request->queryParams;
         if ($model->load(Yii::$app->request->post())) {
-            $model->id_user= Yii::$app->getUser()->getId();
-            $model->date=date('Y-m-d H:m:i');
+            //$model->id_user= Yii::$app->getUser()->getId();  NA TOTO TREBA ROBIT EVENT beforeSave v modeli!!!!!!!
+            //$model->date=date('Y-m-d H:m:i');
             $model->post_id_post=$id;
-            
-                if($id_comment!='0')
-                 {
-                    $model->reply_id_coment=$id_comment;
-                 }
-                else
-                 {
-                    $model->reply_id_coment=null;
-                 }
-                 
+            if($id_comment!='0')
+            {
+                $model->reply_id_coment=$id_comment;
+            }
+//                else
+//                 {
+//                    $model->reply_id_coment=null;   tento else tu nemusi byt - môzem nastavit rovno v parametroch metody
+//                 }
             //$model->post_id_post = $params['id']; //takto prenasam si id z člankov ale takto to netreba robit vid predosly spôsob
+
             $model->save();
             return $this->redirect(['view', 'id' => $model->id_comment]);
         } else {
@@ -121,7 +120,7 @@ class CommentController extends Controller
             ]);
         }
     }
-//bla
+
     /**
      * Deletes an existing Comment model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -131,9 +130,11 @@ class CommentController extends Controller
     public function actionDelete($id,$idPost)
     {
         $this->findModel($id)->delete();
+
         //$idPost=Yii::$app->request->post('idPost');
-        $path='../web/index.php?r=post%2Fview&id='.$idPost;
-        return $this->redirect($path);
+        return $this->redirect(['post/view', 'id' => $idPost]);
+        //$path='../web/index.php?r=post%2Fview&id='.$idPost;       //nerob cesty takto treba urobit ako predoslé!!!!
+        //return $this->redirect($path);
     }
 
     /**
@@ -151,6 +152,6 @@ class CommentController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-    
-    
+
+
 }

@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model backend\models\Post */
+/* @var $model common\models\Post */
 
 $this->title = $model->title;
 $this->params['breadcrumbs'][] = ['label' => 'Posts', 'url' => ['index']];
@@ -86,7 +86,6 @@ $this->params['breadcrumbs'][] = $this->title;
                                  <?= Html::a('Delete', ['comment/delete', 'id'=> $answer->id_comment,'idPost'=> $model->id_post], [ 
                                             'class' => 'btn btn-danger',
                                             'data' => [
-                                            'confirm' => 'Are you sure you want to delete this item?',
                                             'method' => 'post',],]) ?>
                                         
                                 </td>
